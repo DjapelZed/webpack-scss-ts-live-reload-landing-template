@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/index.ts',
@@ -8,13 +9,14 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
     },
     devServer: {
         static: {
             directory: path.join(__dirname, 'dist'),
         },
         compress: true,
-        port: 9000,
+        port: 9001,
         watchFiles: path.join(__dirname, 'src/**')
     },
     module: {
@@ -48,5 +50,10 @@ module.exports = {
             template: 'src/index.html',
         }),
         new webpack.HotModuleReplacementPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+                {from: './src/assets', to: 'assets'}
+            ]
+        }),
     ],
 };
